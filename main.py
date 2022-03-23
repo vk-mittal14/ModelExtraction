@@ -45,8 +45,11 @@ outputs = encoder(dict(image=inputs))
 
 victim = tf.keras.Model(inputs, outputs, name='movinet')
 
+ind__ = 0
+batch_size = 8
 
-c = np.array([1] + [0]*599).reshape(1,-1)
+c = np.zeros(600).reshape(1,-1)
+c[0,ind__] = 1 
 sample = tf.ones((1,8,224,224,3))
 results = np.array(victim(sample))
 
@@ -134,7 +137,7 @@ data = (
     data
     .map(data_gen, num_parallel_calls=AUTO)
     .shuffle(1024)
-    .batch(1)
+    .batch(batch_size)
     .prefetch(AUTO)
 )
 
