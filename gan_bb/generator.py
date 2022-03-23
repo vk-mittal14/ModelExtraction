@@ -242,7 +242,7 @@ def main(args, training_class):
     opt_netC = optim.Adam(netC.parameters(), lr = args.lr_c)
     
     for i in range(args.num_epochs):
-        pdb.set_trace()
+        # pdb.set_trace()
         opt_netG.zero_grad()
         opt_netC.zero_grad()
 
