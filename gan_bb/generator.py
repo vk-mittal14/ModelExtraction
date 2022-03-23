@@ -42,7 +42,7 @@ device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else 
 
 class Noise(nn.Module):
     def __init__(self, use_noise, sigma=0.2):
-        super(Noise, self).__init__()
+        super().__init__()
         self.use_noise = use_noise
         self.sigma = sigma
 
@@ -172,7 +172,7 @@ class VideoGenerator(nn.Module):
 
 class Disciminator(nn.Module):
     def __init__(self, swint_path) -> None:
-        super(Disciminator).__init__(self)
+        super().__init__()
         self.model = SwinTransformer3D(
                           embed_dim=96, 
                           depths=[2, 2, 6, 2], 
@@ -193,7 +193,7 @@ class Disciminator(nn.Module):
 
 class Correlator(nn.Module):
     def __init__(self, num_labels) -> None:
-        super(Correlator).__init__(self)
+        super().__init__()
         self.l1 = nn.Linear(num_labels, 128)
         self.l2 = nn.Linear(num_labels, 64)
         self.l3 = nn.Linear(num_labels, 128)
