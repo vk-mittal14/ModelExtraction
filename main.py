@@ -4,7 +4,34 @@ import numpy as np
 from tensorflow.keras import layers
 import tensorflow_hub as hub
 hub_url = "https://tfhub.dev/tensorflow/movinet/a2/base/kinetics-600/classification/3"
+``
+import argparse
+parser = argparse.
+parser.add_argument(
+    "--lr",
+    default=5e-4,
+    type=float,
+    help="Learning Rate (default: 5e-4)",
+)
+parser.add_argument(
+    "--weight-decay",
+    default=1e-5,
+    type=float,
+    help="Weight Decay (default: 1e-5)",
+)
+parser.add_argument(
+    "--bs",
+    default=1,
+    type=int,
+    help="Batch Size (default: 1)",
+)
 
+parser.add_argument(
+    "--num-epochs",
+    default=100,
+    type=int,
+    help="Number of Epochs (default: 100)",
+)
 
 encoder = hub.KerasLayer(hub_url, trainable=False)
 
