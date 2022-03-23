@@ -242,7 +242,8 @@ def main(args, training_class):
 
         videos, _ = netG.sample_videos(args.bs)
         with torch.no_grad():
-            out = torch.argmax(netD(videos), dim=-1)
+            out = netD(videos)
+            out = torch.argmax(out, dim=-1)
         
         onehot = torch.zeros((args.bs, args.num_labels)).to(device)
         onehot[torch.arange(args.bs), out] = 1
