@@ -1,19 +1,18 @@
-from email import generator
-import os
 import random
-from turtle import forward
 import torch
 import torch.nn as nn
 import torch.nn.parallel
-import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
-import torchvision.datasets as dset
-import torchvision.transforms as transforms
 from torch.autograd import Variable
-import torchvision.utils as vutils
 import numpy as np
-from swin_transformer.video_swin_transformer import SwinTransformer3D
+from swin.video_swin_transformer import SwinTransformer3D
+import argparse
+from args import gan_args
+
+parser = argparse.ArgumentParser()
+gan_args(parser)
+args = parser.parse_args()
 
 if torch.cuda.is_available():
     T = torch.cuda
@@ -209,7 +208,7 @@ class Correlator(nn.Module):
         x = self.softmax(self.l4(x))
         return x 
 
-swin_wt_path = ""
+swin_wt_path = "/home/abhijeet/bosch/swin_tiny_patch244_window877_kinetics400_1k.pth"
 loss_fn = nn.CrossEntropyLoss()
 
 def main(args, training_class):
