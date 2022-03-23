@@ -209,8 +209,8 @@ class Correlator(nn.Module):
     def __init__(self, num_labels) -> None:
         super().__init__()
         self.l1 = nn.Linear(num_labels, 128)
-        self.l2 = nn.Linear(num_labels, 64)
-        self.l3 = nn.Linear(num_labels, 128)
+        self.l2 = nn.Linear(128, 64)
+        self.l3 = nn.Linear(64, 128)
         self.l4 = nn.Linear(128, num_labels)
         self.relu = nn.ReLU(-1)
         self.softmax = nn.Softmax(-1)
