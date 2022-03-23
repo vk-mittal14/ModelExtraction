@@ -260,5 +260,9 @@ def main(args, training_class):
         opt_netC.step()
         opt_netG.step()
         print(loss)
+        torch.save(
+            {"wts": netG.state_dict(), "loss": loss}, 
+            f"gen_model_wts/epoch-{i}.pt"
+        )
 
 main(args, 0)
