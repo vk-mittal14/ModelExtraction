@@ -144,7 +144,7 @@ class VideoGenerator(nn.Module):
         z, z_category_labels = self.sample_z_video(num_samples, video_len)
 
         h = self.main(z.view(z.size(0), z.size(1), 1, 1))
-        h = h.view(h.size(0) / video_len, video_len, self.n_channels, h.size(3), h.size(3))
+        h = h.view(int(h.size(0) / video_len), video_len, self.n_channels, h.size(3), h.size(3))
 
         z_category_labels = torch.from_numpy(z_category_labels)
 
@@ -191,7 +191,7 @@ class Disciminator(nn.Module):
             if 'backbone' in k:
                 name = k[9:]
                 new_state_dict[name] = v 
-                
+
         self.model.load_state_dict(new_state_dict)
 
     def forward(self, x):
