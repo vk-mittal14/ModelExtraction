@@ -232,7 +232,7 @@ def main(args, training_class):
     netG.train()
     netD.eval()
     netC.train()
-    true_labels = torch.ones(args.bs, dtype=torch.LongTensor).to(device)*training_class
+    true_labels = torch.ones(args.bs).to(device).long()*training_class
     if torch.cuda.is_available():
         netG.cuda()
         netD.cuda()
