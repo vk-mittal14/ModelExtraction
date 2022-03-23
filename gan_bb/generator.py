@@ -192,6 +192,9 @@ class Disciminator(nn.Module):
             if 'backbone' in k:
                 name = k[9:]
                 new_state_dict[name] = v 
+                
+        new_state_dict["cls_head.weight"] = checkpoint["state_dict"]["cls_head.fc_cls.weight"]
+        new_state_dict["cls_head.bias"] = checkpoint["state_dict"]["cls_head.fc_cls.bias"]
 
         self.model.load_state_dict(new_state_dict)
 
@@ -226,6 +229,9 @@ def main(args, training_class):
     netG = VideoGenerator(args.n_channels, args.dim_z_content, args.dim_z_category, args.dim_z_motion, args.video_length)
     netD = Disciminator(swin_wt_path)
     netC = Correlator(args.num_labels)
+    netG.train()
+    netD.eval()
+    netC.train()
     true_labels = torch.ones(args.bs).to(device)*training_class
     if torch.cuda.is_available():
         netG.cuda()
@@ -242,7 +248,7 @@ def main(args, training_class):
 
         videos, _ = netG.sample_videos(args.bs)
         with torch.no_grad():
-            out = netD(videos)
+            out = netD(videos) # torch.Size([4, 768, 4, 2, 2])
             out = torch.argmax(out, dim=-1)
         
         onehot = torch.zeros((args.bs, args.num_labels)).to(device)

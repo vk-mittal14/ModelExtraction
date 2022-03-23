@@ -694,7 +694,7 @@ class SwinTransformer3D(nn.Module):
 
         # add a norm layer for each output
         self.norm = norm_layer(self.num_features)
-
+        self.cls_head = nn.Linear(768, 400)
         self._freeze_stages()
 
     def _freeze_stages(self):
@@ -827,6 +827,8 @@ class SwinTransformer3D(nn.Module):
         x = rearrange(x, "n c d h w -> n d h w c")
         x = self.norm(x)
         x = rearrange(x, "n d h w c -> n c d h w")
+        x = torch.mean(x, dim = [2,3,4])
+        x = self.cls_head(x)
 
         return x
 
