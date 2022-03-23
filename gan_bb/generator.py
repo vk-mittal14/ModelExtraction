@@ -240,5 +240,6 @@ def main(args, training_class):
         loss.backward()
         opt_netC.step()
         opt_netG.step()
+        print(loss)
 
-
+main(args, 0)
