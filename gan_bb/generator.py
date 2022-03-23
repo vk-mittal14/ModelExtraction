@@ -6,7 +6,7 @@ import torch.optim as optim
 import torch.utils.data
 from torch.autograd import Variable
 import numpy as np
-from swin.video_swin_transformer import SwinTransformer3D
+from swin import SwinTransformer3D
 import argparse
 from args import gan_args
 
