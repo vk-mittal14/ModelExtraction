@@ -9,6 +9,7 @@ import numpy as np
 from swin import SwinTransformer3D
 import argparse
 from args import gan_args
+from collections import OrderedDict
 
 parser = argparse.ArgumentParser()
 gan_args(parser)
@@ -182,7 +183,16 @@ class Disciminator(nn.Module):
                           drop_path_rate=0.4, 
                           patch_norm=True
                           )
-        self.model.load_state_dict(torch.load(swint_path))
+        checkpoint = torch.load(swin_wt_path)
+        
+        new_state_dict = OrderedDict()
+    
+        for k, v in checkpoint['state_dict'].items():
+            if 'backbone' in k:
+                name = k[9:]
+                new_state_dict[name] = v 
+                
+        self.model.load_state_dict(new_state_dict)
 
     def forward(self, x):
         """
