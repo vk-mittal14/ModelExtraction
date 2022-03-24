@@ -252,8 +252,8 @@ def main(args, training_class):
             out = netD(videos) # torch.Size([4, 768, 4, 2, 2])
             out = torch.argmax(out, dim=-1)
         
-            onehot = torch.zeros((args.bs, args.num_labels)).to(device)
-            onehot[torch.arange(args.bs), out] = 1
+        onehot = torch.zeros((args.bs, args.num_labels)).to(device)
+        onehot[torch.arange(args.bs), out] = 1
 
         final_out = netC(onehot)
         loss = loss_fn(onehot + args.alpha*final_out, true_labels)
