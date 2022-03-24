@@ -29,3 +29,6 @@ def gan_args(parser):
     parser.add_argument(
         "--num_epochs", default=50, type=int, help="Batch Size (default: 1)",
     )
+    parser.add_argument(
+        "--alpha", default=0.1, type=float, help="Batch Size (default: 1)",
+    )

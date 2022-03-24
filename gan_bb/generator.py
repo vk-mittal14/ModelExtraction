@@ -230,9 +230,10 @@ def main(args, training_class):
     netD = Disciminator(swin_wt_path)
     netC = Correlator(args.num_labels)
     netG.train()
-    netD.eval()
     netC.train()
+    netD.eval()
     true_labels = torch.ones(args.bs).to(device).long()*training_class
+    
     if torch.cuda.is_available():
         netG.cuda()
         netD.cuda()
@@ -242,7 +243,7 @@ def main(args, training_class):
     opt_netC = optim.Adam(netC.parameters(), lr = args.lr_c)
     
     for i in range(args.num_epochs):
-        # pdb.set_trace()
+        pdb.set_trace()
         opt_netG.zero_grad()
         opt_netC.zero_grad()
 
@@ -251,12 +252,13 @@ def main(args, training_class):
             out = netD(videos) # torch.Size([4, 768, 4, 2, 2])
             out = torch.argmax(out, dim=-1)
         
-        onehot = torch.zeros((args.bs, args.num_labels)).to(device)
-        onehot[torch.arange(args.bs), out] = 1
+            onehot = torch.zeros((args.bs, args.num_labels)).to(device)
+            onehot[torch.arange(args.bs), out] = 1
 
         final_out = netC(onehot)
-        loss = loss_fn(final_out, true_labels)
+        loss = loss_fn(onehot + args.alpha*final_out, true_labels)
         loss.backward()
+        print(loss.grad)
         opt_netC.step()
         opt_netG.step()
         print(loss)
